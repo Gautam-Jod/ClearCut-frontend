@@ -70,8 +70,15 @@ export default function Result() {
     );
   }
 
-  const originalSrc = `/uploads/${image.originalPath}`;
-  const processedSrc = `/uploads/${image.processedPath}`;
+const BACKEND_URL = import.meta.env.VITE_API_BASE_URL.replace('/api', '');
+
+const originalSrc = image.originalPath?.startsWith('http')
+  ? image.originalPath
+  : `${BACKEND_URL}/uploads/${image.originalPath}`;
+
+const processedSrc = image.processedPath?.startsWith('http')
+  ? image.processedPath
+  : `${BACKEND_URL}/uploads/${image.processedPath}`;
 
   return (
     <main className="page">
