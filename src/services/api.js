@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 90000, // 90s for AI processing
 });
 
@@ -10,8 +10,11 @@ export const imageService = {
   upload: (file, onUploadProgress) => {
     const formData = new FormData();
     formData.append('image', file);
+
     return api.post('/images/upload', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
       onUploadProgress,
     });
   },
@@ -29,7 +32,8 @@ export const imageService = {
   getStats: () => api.get('/images/stats'),
 
   // Get download URL
-  getDownloadUrl: (id, format = 'png') => `/api/images/${id}/download?format=${format}`,
+  getDownloadUrl: (id, format = 'png') =>
+    `${import.meta.env.VITE_API_BASE_URL}/images/${id}/download?format=${format}`,
 };
 
 export default api;
