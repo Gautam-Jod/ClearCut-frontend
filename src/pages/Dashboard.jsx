@@ -4,6 +4,8 @@ import { imageService } from '../services/api';
 import { PageLoader } from '../components/LoadingSpinner';
 import './Dashboard.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace('/api', '');
+
 function AnimatedNumber({ target, duration = 1500 }) {
   const [value, setValue] = useState(0);
   const startRef = useRef(null);
@@ -198,7 +200,11 @@ export default function Dashboard() {
               {stats.recentImages.map((img) => (
                 <Link key={img._id} to={`/result/${img._id}`} className="recent-card">
                   <div className="recent-card__thumb">
-                    <img src={`/uploads/${img.processedPath}`} alt={img.originalName} loading="lazy" />
+                    <img
+                      src={`${API_BASE_URL}/uploads/${img.processedPath}`}
+                      alt={img.originalName}
+                      loading="lazy"
+                    />
                   </div>
                   <span className="recent-card__name">{img.originalName}</span>
                 </Link>
